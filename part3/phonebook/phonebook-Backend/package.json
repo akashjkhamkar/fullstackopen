@@ -7,9 +7,9 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "eslint": "eslint .",
-    "build-ui": "rm -rf build && cd ../phonebook-frontend && npm run build --prod && cp -r build ../phonebook-backend",
-    "deploy": "git push heroku master",
-    "deploy:full": "npm run build-ui && git add . && git commit -m uibuild && npm run deploy",
+    "build:ui": "rm -rf build && cd ../phonebook-Frontend && npm run build --prod && cp -r build ../phonebook-Backend",
+    "deploy": "cd ../../../ && git subtree push --prefix part3/phonebook/phonebook-Backend heroku master",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail"
   },
   "author": "",
