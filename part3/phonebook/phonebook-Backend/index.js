@@ -82,7 +82,10 @@ app.put("/api/persons/:id", (req, res, next) => {
 		new: true
 	})
 		.then((result) => {
-			res.json(result)
+			if (result) {
+				res.json(result)
+			}
+			return res.status(400).end()
 		})
 		.catch((err) => next(err))
 })
