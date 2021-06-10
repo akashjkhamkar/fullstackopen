@@ -22,8 +22,7 @@ const App = () => {
   const [isSearching, setisSearching] = useState(false);
   const [NewContact, setNewContact] = useState({
     newName: "",
-    newNuber: "",
-    id: ""
+    newNuber: ""
   });
 
   // handlers
@@ -92,7 +91,7 @@ const App = () => {
           seterrorMessage(`Changed ${NewContact.name}`);
           setPersons(persons.map((p) => (p.id === person.id ? res : p)));
           Notify(`changed ${NewContact.name}`, false);
-          setNewContact({ name: null, number: null });
+          setNewContact({ name: "", number: "" });
         })
         .catch((err) => Notify(err.response.data.error, true));
     }
@@ -107,9 +106,8 @@ const App = () => {
         .add(NewContact)
         .then((res) => {
           setPersons(persons.concat(res));
-          setNewContact({ name: null, number: null });
           Notify(`Added ${NewContact.name}`, false);
-          setNewContact({ name: null, number: null });
+          setNewContact({ name: "", number: "" });
         })
         .catch((err) => {
           Notify(err.response.data.error, true);

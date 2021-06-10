@@ -5,11 +5,11 @@ const PersonForm = ({ NewContact, numberHandler, nameHandler, addHandler }) => (
     <h2>add a new</h2>
     <div>
       name:
-      <input value={NewContact.name || " "} onChange={nameHandler} />
+      <input value={NewContact.name || ""} onChange={nameHandler} />
     </div>
     <div>
       number:
-      <input value={NewContact.number || " "} onChange={numberHandler} />
+      <input value={NewContact.number || ""} onChange={numberHandler} />
     </div>
     <div>
       <button type="submit" onClick={addHandler}>
