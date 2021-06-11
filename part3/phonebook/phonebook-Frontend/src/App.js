@@ -19,10 +19,11 @@ const App = () => {
     errorMessage: null,
     color: null
   });
+
   const [isSearching, setisSearching] = useState(false);
   const [NewContact, setNewContact] = useState({
-    newName: "",
-    newNuber: ""
+    name: "",
+    number: ""
   });
 
   // handlers
