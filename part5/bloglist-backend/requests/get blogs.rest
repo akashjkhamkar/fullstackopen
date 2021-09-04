@@ -33,9 +33,9 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "name": "ne",
-    "username": "ne",
-    "password": "ilikeoreos"
+    "name": "akash",
+    "username": "akash",
+    "password": "asd"
 }
 
 
@@ -44,6 +44,6 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username": "admin",
-    "password": "ilikeoreos"
+    "username": "akash",
+    "password": "akash"
 }
