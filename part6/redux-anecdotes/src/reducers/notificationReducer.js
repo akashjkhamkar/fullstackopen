@@ -12,11 +12,20 @@ const reducer = (state = initialState, action) => {
     return state
 }
 
-export const notify = (dispatch, msg) => {
-    dispatch(showNotification(msg));
-    setTimeout(() => {
-        dispatch({type: "RESET"})
-    }, 5000)
+// export const notify = (dispatch, msg) => {
+//     dispatch(showNotification(msg))
+//     setTimeout(() => {
+//         dispatch({type: "RESET"})
+//     }, 5000)
+// }
+
+export const notify = (msg, time) => {
+    return async dispatch => {
+        dispatch(showNotification(msg))
+        setTimeout(() => {
+            dispatch({type: "RESET"})
+        }, time)
+    }
 }
 
 export const showNotification = (msg) => {

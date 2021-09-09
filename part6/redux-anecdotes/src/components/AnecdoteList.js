@@ -10,9 +10,9 @@ const AnecdoteList = () => {
     const anecdotes = queryResults.length === 0 ? allAnecdotes : queryResults;
     
     const vote = (id) => {
-      dispatch(voteAnecdote(id))
-      const anecdoteVoted = anecdotes.find(anecdote => anecdote.id === id).content
-      notify(dispatch, `you voted '${anecdoteVoted}'`)
+      const anecdoteVoted = anecdotes.find(anecdote => anecdote.id === id)
+      dispatch(voteAnecdote({...anecdoteVoted, votes:anecdoteVoted.votes+1}))
+      dispatch(notify(`you voted '${anecdoteVoted.content}'`, 1000))
     }
     
     
