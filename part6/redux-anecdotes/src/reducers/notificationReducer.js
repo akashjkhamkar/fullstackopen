@@ -1,11 +1,17 @@
-const initialState = "slane castle sikhado koi"
+const initialState = {msg:"slane castle sikhado koi", id:"69"}
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case "SHOW":
-            return action.data.msg
+            if(state.id){
+                clearTimeout(state.id)
+            }
+            return {
+                msg: action.data.msg,
+                id: action.data.id
+            }
         case "RESET":
-            return ""
+            return {msg: null, id: null}
         default:
             break
     }
@@ -21,18 +27,19 @@ const reducer = (state = initialState, action) => {
 
 export const notify = (msg, time) => {
     return async dispatch => {
-        dispatch(showNotification(msg))
-        setTimeout(() => {
+        const id = setTimeout(() => {
             dispatch({type: "RESET"})
         }, time)
+        dispatch(showNotification(msg, id))
     }
 }
 
-export const showNotification = (msg) => {
+export const showNotification = (msg, id) => {
     return {
         type: "SHOW",
         data: {
-            msg
+            msg,
+            id
         }
     }
 }

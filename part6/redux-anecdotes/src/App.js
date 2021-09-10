@@ -1,5 +1,5 @@
 import {React, useEffect} from 'react'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList' 
 import Notification from './components/Notification'
@@ -7,11 +7,10 @@ import Filter from './components/Filter'
 
 import { initAnecdote } from './reducers/anecdoteReducer'
 
-const App = () => {
-  const dispatch = useDispatch()
+const App = (props) => {
   useEffect(() => {
-    dispatch(initAnecdote())
-  }, [dispatch])
+    props.initAnecdote()
+  }, [props])
 
   return (
     <div>
@@ -24,4 +23,10 @@ const App = () => {
   )
 }
 
-export default App
+const mapDispatchToProps = {
+  initAnecdote
+}
+
+const ConnectApp = connect(null, mapDispatchToProps)(App) 
+
+export default ConnectApp

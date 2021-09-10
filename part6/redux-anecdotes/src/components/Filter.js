@@ -1,16 +1,15 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { setResults } from '../reducers/queryReducer'
 
-const Filter = () => {
-    const dispatch = useDispatch()
-    const anecdotes = useSelector(state => state.anecdote)
+const Filter = (props) => {
+    const anecdotes = props.anecdote
 
     const handleChange = (event) => {
         event.preventDefault()
         const query = event.target.value
         const searchResults = anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(query.toLowerCase()))
-        dispatch(setResults(searchResults))
+        props.setResults(searchResults)
     }
 
     const style = {
@@ -24,4 +23,15 @@ const Filter = () => {
     )
 }
 
-export default Filter
+const mapStateToProps = (state) => {
+    return {
+        anecdote: state.anecdote
+    }
+}
+
+const mapDispatchToProps = {
+    setResults
+}
+
+const ConnectedFilter = connect(mapStateToProps, mapDispatchToProps)(Filter)
+export default ConnectedFilter

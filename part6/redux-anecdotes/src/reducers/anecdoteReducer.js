@@ -1,12 +1,5 @@
 import anecdoteService from '../services/anecdotes'
 
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    votes: 0
-  }
-}
-
 const reducer = (state = [], action) => {
   switch (action.type) {
     case "INIT":
