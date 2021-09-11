@@ -1,11 +1,8 @@
-const initialState = {msg:"slane castle sikhado koi", id:"69"}
+const initialState = {msg:null, id:null}
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case "SHOW":
-            if(state.id){
-                clearTimeout(state.id)
-            }
             return {
                 msg: action.data.msg,
                 id: action.data.id
@@ -26,11 +23,17 @@ const reducer = (state = initialState, action) => {
 // }
 
 export const notify = (msg, time) => {
-    return async dispatch => {
-        const id = setTimeout(() => {
+    return async (dispatch, getState) => {
+        const id = getState(state => state).notification.id
+        console.log("id", id)        
+        if(id){
+            clearTimeout(id)
+        }
+
+        const newid = setTimeout(() => {
             dispatch({type: "RESET"})
         }, time)
-        dispatch(showNotification(msg, id))
+        dispatch(showNotification(msg, newid))
     }
 }
 
