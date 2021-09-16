@@ -38,7 +38,9 @@ const useCountry = (name) => {
   return country
 }
 
-const Country = ({ country }) => {
+const Country = ({ name }) => {
+  const country = useCountry(name)
+
   if (!country) {
     return null
   }
@@ -64,7 +66,6 @@ const Country = ({ country }) => {
 const App = () => {
   const nameInput = useField('text')
   const [name, setName] = useState('')
-  const country = useCountry(name)
 
   const fetch = (e) => {
     e.preventDefault()
@@ -78,7 +79,7 @@ const App = () => {
         <button>find</button>
       </form>
 
-      <Country country={country} />
+      <Country name={name} />
     </div>
   )
 }
