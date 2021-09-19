@@ -1,9 +1,11 @@
 import React from 'react'
 import blogService from '../services/blogs'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { actionModifyBlogs, actionDeletedBlog } from '../reducers/BlogReducer'
 import { useHistory } from 'react-router-dom'
+
+import { Button, Card, Container, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max)
@@ -12,17 +14,10 @@ function getRandomInt(max) {
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const user = useSelector(state => state.user)
 
   if(!blog){
     return null
-  }
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
   }
 
   const handleLike = async (e) => {
@@ -50,47 +45,47 @@ const Blog = ({ blog }) => {
 
 
   return (
-    <div style={blogStyle}>
-      <div>
 
-        <h1 className="title">
-          {blog.title}
-        </h1>
+    <Container>
+      <Card>
+        <Card.Body>
+          <Card.Title><h2>{blog.title}</h2></Card.Title>
+          <Card.Text>
+              - by {blog.author}
+          </Card.Text>
+        </Card.Body>
+        <ListGroup className="list-group-flush">
+          <ListGroupItem><h5>Likes -</h5> {blog.likes}</ListGroupItem>
+          <ListGroupItem><h5>URL -</h5> <a href={blog.url}>{blog.url}</a></ListGroupItem>
+          <ListGroupItem>added by {blog.user.username}</ListGroupItem>
+        </ListGroup>
+        <Card.Body>
+          <Card.Link>
+            <Button variant="outline-dark" onClick={handleLike}>like</Button>
+          </Card.Link>
 
-        <span className="author">
-          {blog.author}
-        </span>
+          {user.username === blog.user.username ?
+            <Card.Link>
+              <Button variant="outline-danger" onClick={handleDelete}>Delete</Button>
+            </Card.Link> :
+            null}
 
-        <div>
-          <span id="likes">
-            {blog.likes} likes
-          </span>
-          <button onClick={handleLike}>like</button>
-        </div>
 
-        <a href={blog.url}>
-          {blog.url}
-        </a>
-
-        <div>added by
-          {' ' + blog.user.username}
-        </div>
-
-      </div>
-      <button onClick={handleDelete}>Delete</button>
+        </Card.Body>
+      </Card>
 
       <div>
         <h2>comments</h2>
         <form onSubmit={handleComment}>
           <input name="comment" type="text" required placeholder={'comment here'}/>
-          <button>submit</button>
+          <Button type="submit" variant="outline-dark">submit</Button>
         </form>
-        <ul>
+        <ListGroup variant="flush">
           {blog.comments.map(comment =>
-            <li key={getRandomInt(100)+comment}>{comment}</li>)}
-        </ul>
+            <ListGroup.Item key={getRandomInt(100)+comment}>{comment}</ListGroup.Item>)}
+        </ListGroup>
       </div>
-    </div>
+    </Container>
   )}
 
 export default Blog

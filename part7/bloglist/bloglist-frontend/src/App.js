@@ -9,10 +9,12 @@ import { useSelector } from 'react-redux'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import BlogInfo from './components/BlogInfo'
 
+import { Container } from 'react-bootstrap'
+
 const App = () => {
   const user = useSelector(state => state.user)
   return (
-    <div>
+    <Container>
       <Userinfo/>
       <Switch>
         <Route path='/login' exact><Login/></Route>
@@ -33,7 +35,7 @@ const App = () => {
           {user ? <Home/> : <Redirect to="/login"/>}
         </Route>
       </Switch>
-    </div>
+    </Container>
   )
 }
 

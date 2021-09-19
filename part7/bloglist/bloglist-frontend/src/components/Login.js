@@ -9,6 +9,8 @@ import { notify } from '../reducers/NotificationReducer'
 
 import { useHistory } from 'react-router-dom'
 
+import { Container, Form, Button, Alert } from 'react-bootstrap'
+
 const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -16,6 +18,8 @@ const Login = () => {
   const username = useSelector(state => state.login.username)
   const password = useSelector(state => state.login.password)
   const msg = useSelector(state => state.notification)
+
+  const alert = msg ? <Alert variant="danger">{msg}</Alert> : null
 
   // check for the logged user
   useEffect(() => {
@@ -35,7 +39,7 @@ const Login = () => {
     try {
       loggeduser = await loginService.login(username, password)
     } catch (error) {
-      notify(dispatch, 'login failed')
+      notify(dispatch, 'login failed , check credentials again, if you dont have an account , contact the dev , as we dont have a sign up page yet')
       return
     }
 
@@ -46,32 +50,33 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <Container style={{ width:'60%' }}>
       <h2>Log in to application</h2>
-      {msg}
-      <form onSubmit={handleLogin}>
-        <div>
-                    username
-          <input
-            type="text"
-            id="username"
-            value={username}
-            name="username"
-            onChange={({ target }) => dispatch(actionUsername(target.value))}/>
-        </div>
+      {alert}
+      <Form onSubmit={handleLogin}>
+        <Form.Label>
+          username
+        </Form.Label>
+        <Form.Control
+          type="text"
+          id="username"
+          value={username}
+          name="username"
+          onChange={({ target }) => dispatch(actionUsername(target.value))}/>
 
-        <div>
-                    password
-          <input
-            type="password"
-            id="password"
-            value={password}
-            name="password"
-            onChange={({ target }) => dispatch(actionPassword(target.value))}/>
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </div>
+        <Form.Label>
+          password
+        </Form.Label>
+        <Form.Control
+          type="password"
+          id="password"
+          value={password}
+          name="password"
+          onChange={({ target }) => dispatch(actionPassword(target.value))}/>
+
+        <Button style={{ margin:'3px' }} type="submit">login</Button>
+      </Form>
+    </Container>
   )
 }
 

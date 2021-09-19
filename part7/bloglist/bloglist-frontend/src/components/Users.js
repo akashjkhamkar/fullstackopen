@@ -4,6 +4,9 @@ import usersService from '../services/users'
 import { actionUsers } from '../reducers/UsersReducer'
 import { Link } from 'react-router-dom'
 
+import { Table } from 'react-bootstrap'
+
+
 const Users = () => {
   const dispatch = useDispatch()
   const users = useSelector(state => state.users)
@@ -16,12 +19,11 @@ const Users = () => {
   console.log(users)
   return(
     <div>
-      <h2>Users</h2>
-      <table>
+      <Table>
         <thead>
           <tr>
             <td>
-
+              <h3>Users</h3>
             </td>
             <td>
               <h3>blogs created</h3>
@@ -42,7 +44,7 @@ const Users = () => {
             </tr>
           )}
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }

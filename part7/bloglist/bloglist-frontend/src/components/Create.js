@@ -4,6 +4,8 @@ import { actionAdd } from '../reducers/BlogReducer'
 import { notify } from '../reducers/NotificationReducer'
 import blogService from '../services/blogs'
 
+import { Button, Form } from 'react-bootstrap'
+
 const Create = (blogFormRef) => {
   const dispatch = useDispatch()
 
@@ -26,41 +28,41 @@ const Create = (blogFormRef) => {
 
   return (
     <div>
-      <h2>Create new</h2>
-      <form onSubmit={handleNewBlog}>
-        <div>
-                    title:
-          <input
+      <Form onSubmit={handleNewBlog}>
+        <h2>Create new</h2>
+        <Form.Group>
+          <Form.Label>title:</Form.Label>
+          <Form.Control
             type="text"
             id="title"
             value={title}
             name="title"
             onChange={({ target }) => setTitle(target.value)}/>
-        </div>
+        </Form.Group>
 
-        <div>
-                    author:
-          <input
+        <Form.Group>
+          <Form.Label>author:</Form.Label>
+          <Form.Control
             type="text"
             id="author"
             value={author}
             name="author"
             onChange={({ target }) => setAuthor(target.value)}/>
-        </div>
+        </Form.Group>
 
-        <div>
-                    url:
-          <input
+        <Form.Group>
+          <Form.Label>url:</Form.Label>
+          <Form.Control
             type="text"
             id="url"
             value={url}
             name="url"
             onChange={({ target }) => setUrl(target.value)}/>
-        </div>
+        </Form.Group>
 
-        <button type="submit">create</button>
+        <Button style={{ margin: '5px' }} variant="outline-dark" type="submit">create</Button>
 
-      </form>
+      </Form>
     </div>
   )
 }

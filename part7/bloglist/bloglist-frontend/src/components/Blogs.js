@@ -25,6 +25,7 @@ const Blogs = () => {
   blogs.sort((a, b) => a.likes - b.likes)
   return (
     <div className="blogsContainer">
+      <h2>Blogs</h2>
       {blogs.map(blog =>
         <div style={blogStyle} key={blog.id}>
           <Link to={`/blog/${blog.id}`}>
