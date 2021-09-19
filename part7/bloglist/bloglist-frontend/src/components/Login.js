@@ -7,27 +7,27 @@ import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { notify } from '../reducers/NotificationReducer'
 
+import { useHistory } from 'react-router-dom'
+
 const Login = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
+
   const username = useSelector(state => state.login.username)
   const password = useSelector(state => state.login.password)
   const msg = useSelector(state => state.notification)
-  const user = useSelector(state => state.user)
 
+  // check for the logged user
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const loggedUser = JSON.parse(loggedUserJSON)
       dispatch(actionUser(loggedUser))
       blogService.setToken(loggedUser.token)
+      history.push('/')
     }
   }, [])
 
-  if(user){
-    return null
-  }
-
-  // check for the logged user
   const handleLogin = async (e) => {
     e.preventDefault()
     let loggeduser = null
@@ -42,6 +42,7 @@ const Login = () => {
     dispatch(actionUser(loggeduser))
     blogService.setToken(loggeduser.token)
     window.localStorage.setItem('loggedUser', JSON.stringify(loggeduser))
+    history.push('/')
   }
 
   return (

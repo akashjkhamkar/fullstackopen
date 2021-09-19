@@ -47,16 +47,65 @@ blogsRouter.delete("/:id", tokenExtractor, async (request, response) => {
 	response.status(204).end();
 });
 
-blogsRouter.put("/:id", async (request, response) => {
-	const id = request.params.id;
-	const updatedBlog = {
-		likes: request.body.likes
-	};
+// blogsRouter.put("/likes/:id", async (request, response) => {
+// 	const id = request.params.id;
+// 	const updatedBlog = {
+// 		likes: request.body.likes
+// 	};
 
-	const res = await Blog.findByIdAndUpdate(id, updatedBlog, {
+// 	const res = await Blog.findByIdAndUpdate(id, updatedBlog, {
+// 		runValidators: true,
+// 		new: true
+// 	});
+
+// 	if (res) {
+// 		response.json(res);
+// 	}else{
+// 		response.status(400).end();
+// 	}
+// });
+
+blogsRouter.put("/likes/:id", tokenExtractor, async (request, response) => {
+	const id = request.params.id;
+	
+	const blogTochange = await Blog.findById(id);
+		
+	if (!blogTochange) {
+		response.status(400).send("not found");
+	}
+
+	console.log("mod",blogTochange.likes);
+	blogTochange.likes++;
+	
+	const res = await Blog.findByIdAndUpdate(id, blogTochange, {
 		runValidators: true,
 		new: true
-	});
+	}).populate("user", {username: 1, name: 1, id: 1});
+
+	if (res) {
+		response.json(res);
+	}else{
+		response.status(400).end();
+	}
+});
+
+blogsRouter.put("/comments/:id", tokenExtractor, async (request, response) => {
+	const id = request.params.id;
+	const comment = request.body.comment;
+
+	console.log(comment);
+	const blogTochange = await Blog.findById(id);
+			
+	if (!blogTochange) {
+		response.status(400).send("not found");
+	}
+
+	blogTochange.comments.push(comment);
+
+	const res = await Blog.findByIdAndUpdate(id, blogTochange, {
+		runValidators: true,
+		new: true
+	}).populate("user", {username: 1, name: 1, id: 1});
 
 	if (res) {
 		response.json(res);

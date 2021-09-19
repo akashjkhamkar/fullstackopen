@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import blogService from '../services/blogs'
 
 import { useDispatch } from 'react-redux'
 import { actionModifyBlogs, actionDeletedBlog } from '../reducers/BlogReducer'
+import { useHistory } from 'react-router-dom'
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max)
+}
 
 const Blog = ({ blog }) => {
-  const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
+  const history = useHistory()
+
+  if(!blog){
+    return null
+  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -16,14 +25,9 @@ const Blog = ({ blog }) => {
     marginBottom: 5,
   }
 
-  const toggleVisibility = () => {
-    setVisible(!visible)
-  }
-
   const handleLike = async (e) => {
     e.preventDefault()
-    blog.likes+=1
-    const res = await blogService.updateBlog(blog)
+    const res = await blogService.likeBlog(blog.id)
     dispatch(actionModifyBlogs(res))
   }
 
@@ -34,40 +38,58 @@ const Blog = ({ blog }) => {
     }
     await blogService.deleteBlog(blog.id)
     dispatch(actionDeletedBlog(blog.id))
+    history.push('/')
   }
 
-  const visibility = { display: visible ? '' : 'none' }
+  const handleComment = async (e) => {
+    e.preventDefault()
+    const res = await blogService.commentBlog(blog.id, e.target.comment.value)
+    e.target.comment.value = ''
+    dispatch(actionModifyBlogs(res))
+  }
+
 
   return (
-    <div style={blogStyle} className="visible">
+    <div style={blogStyle}>
       <div>
 
-        <span className="title">
+        <h1 className="title">
           {blog.title}
-        </span>
+        </h1>
 
         <span className="author">
           {blog.author}
         </span>
 
-        <button onClick={toggleVisibility} className="show">show/hide</button>
-
-      </div>
-      <div style={visibility} className="hidden">
         <div>
           <span id="likes">
-            {blog.likes}
+            {blog.likes} likes
           </span>
           <button onClick={handleLike}>like</button>
         </div>
-        <div>
+
+        <a href={blog.url}>
           {blog.url}
+        </a>
+
+        <div>added by
+          {' ' + blog.user.username}
         </div>
-        <div>
-          {blog.user.username}
-        </div>
+
       </div>
       <button onClick={handleDelete}>Delete</button>
+
+      <div>
+        <h2>comments</h2>
+        <form onSubmit={handleComment}>
+          <input name="comment" type="text" required placeholder={'comment here'}/>
+          <button>submit</button>
+        </form>
+        <ul>
+          {blog.comments.map(comment =>
+            <li key={getRandomInt(100)+comment}>{comment}</li>)}
+        </ul>
+      </div>
     </div>
   )}
 
