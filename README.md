@@ -7,4 +7,4 @@ feel free to read the code,
 
 now allow me to flex my certificate
 
-![cert](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/d8e4d2b94c7aea046fe1991b02e20171)
+![cert](certificate-fullstack.png)
